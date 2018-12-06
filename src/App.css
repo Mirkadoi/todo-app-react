@@ -1,32 +1,109 @@
 .App {
   text-align: center;
 }
-
-.App-logo {
-  animation: App-logo-spin infinite 20s linear;
-  height: 40vmin;
+.Todo-container {
+  width: 70%;
+  margin: 40px auto;
+}
+.Todo-input {
+  width: 100%;
+  padding: 10px 0px;
+  font-size: 18px;
+  margin-bottom: 16px;
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+.Todo-input:focus {
+  outline: 0;
+}
+
+.Todo-item {
+  margin-bottom: 12px;
   display: flex;
-  flex-direction: column;
   align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+  justify-content: space-between;
+  animation-duration: 0.3s;
 }
 
-.App-link {
-  color: #61dafb;
+.Remove-item {
+  cursor: pointer;
+  margin-left: 14px;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.Remove-item:hover {
+  color: black;
+}
+
+.Todo-item-left {
+  display: flex;
+  align-items: center;
+}
+
+.Todo-item-label {
+  padding: 10px;
+}
+
+.Todo-item-edit {
+  font-size: 24px;
+  color: #2c3e50;
+  margin-left: 12px;
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  font-family: 'Avenir', Helvetica, Arial, sans-serif;
+}
+
+.Todo-item-edit:focus {
+  outline: none;
+}
+
+.Completed {
+  text-decoration: line-through;
+  color: grey;
+}
+
+.Extra-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 16px;
+  border-top: 1px solid lightgrey;
+  padding-top: 14px;
+  margin-bottom: 14px;
+}
+
+button {
+  font-size: 14px;
+  background-color: white;
+  appearance: none;
+  margin: 2px;
+}
+
+button:hover {
+  background: lightgreen;
+}
+
+button:focus {
+  outline: none;
+}
+
+.Active {
+  background: lightgreen;
+}
+
+.Fade-enter {
+  opacity: 0;
+}
+
+.Fade-enter-active {
+  opacity: 1;
+  transition: opacity 300ms ease-in;
+}
+
+.Fade-leave {
+  opacity: 1;
+}
+
+.Fade-leave-active {
+  opacity: 0;
+  transition: opacity 300ms ease-out;
 }
