@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import './App.css';
 import { Container, Row, Col } from 'reactstrap';
+import * as classnames from 'classnames';
+
 
 class App extends Component {
   render() {
@@ -14,12 +16,13 @@ class App extends Component {
           <Col xs="2"><button onClick={this.addTodo} >Добавить</button></Col>
         </Row>
         </Container>
-          {this.state.todos.map((todo, index)=>           
+
+          {this.todoFilters().map((todo, index)=>           
         <div key={todo.id} className="Todo-item">
           <div className="Todo-item-left">
-            <input type="checkbox" onChange={ (event)=> this.checkTodo(todo, index, event)} />
+            <input type="checkbox" onChange={ (event)=> this.checkTodo(todo, index, event)} checked={todo.completed} />
             {!todo.editing &&
-            <div className={"Todo-item-label " + (todo.completed ? 'Completed' : '')}
+            <div className={classnames({'Todo-item-label': true, 'Completed': todo.completed})}
               onDoubleClick={(event)=> this.editTodo(todo, index, event)}>
               {todo.title}</div>
             }
@@ -43,22 +46,25 @@ class App extends Component {
         </div>
         )}
 
+        
         <div className="Extra-container">
-          <div><input type="checkbox" /><label className="Todo-item-label">Check All</label></div>
+          <div><input type="checkbox" onChange={this.allCheckTodo} checked={!this.anyRemaining()}/><label className="Todo-item-label">Check All</label></div>
           <div>{this.tasksLeft()} items left</div>
         </div>
 
         <div className="Extra-container">
           <div>
-            <button onClick={()=> this.updateFilter('all')} className={"Active "+(this.state.filter === 'all')}>All</button>
-            <button onClick={()=> this.updateFilter('active')}>Active</button>
-            <button onClick={()=> this.updateFilter('completed')} className={"Active "+(this.state.filter === 'completed')}>Completed</button>
+            <button onClick={()=> this.updateFilter('all')} className={classnames({'Active': this.state.filter === 'all'})}>All</button>
+            <button onClick={()=> this.updateFilter('active')} className={classnames({'Active': this.state.filter === 'active'})}>Active</button>
+            <button onClick={()=> this.updateFilter('completed')} className={classnames({'Active': this.state.filter === 'completed'})}>Completed</button>
           </div>
+
            {this.todoComplited() > 0 &&
           <div>
             <button onClick={this.clearCompleted}>Clear Completed</button>
           </div>
           }
+
         </div>
       </div>
     </div>
@@ -172,6 +178,9 @@ class App extends Component {
   tasksLeft = () =>{
     return this.state.todos.filter(todo =>!todo.completed).length;
   }
+  anyRemaining = ()=>{
+    return this.tasksLeft() !== 0;
+  }
 
   todoComplited = () =>{
     return this.state.todos.filter(todo =>todo.completed).length;
@@ -190,6 +199,28 @@ class App extends Component {
   updateFilter = filter =>{
     this.setState({filter});
   }
+  todoFilters = () =>{
+    if (this.state.filter === 'all') {
+      return this.state.todos;
+    } else if (this.state.filter === 'active') {
+      return this.state.todos.filter(todo => !todo.completed);
+    } else if (this.state.filter === 'completed') {
+      return this.state.todos.filter(todo => todo.completed);
+    }
+
+    return this.state.todos;
+  }
+
+  allCheckTodo = (event) =>{
+    event.persist();
+    this.setState ((prevState, props) =>{
+      let todos = prevState.todos;
+      todos.forEach((todo) => todo.completed = event.target.checked);
+
+      return {todos}
+    })
+  }
+
 }
 
 export default App;
