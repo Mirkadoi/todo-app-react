@@ -4,12 +4,15 @@
 .Todo-container {
   width: 70%;
   margin: 40px auto;
+  border: 1px solid rgb(9, 1, 37);
+
 }
 .Todo-input {
   width: 100%;
   padding: 10px 0px;
   font-size: 18px;
-  margin-bottom: 16px;
+  margin: 8px 5px;
+  
 }
 
 .Todo-input:focus {
@@ -17,13 +20,17 @@
 }
 
 .Todo-item {
-  margin-bottom: 12px;
+  padding: 8px 5px;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  animation-duration: 0.3s;
-}
+  animation-duration: 0.5s;
+  border-top: 1px groove rgba(12, 1, 49, 0.548);
 
+}
+.title-style{
+  margin-bottom: 0px;
+}
 .Remove-item {
   cursor: pointer;
   margin-left: 14px;
@@ -40,10 +47,15 @@
 
 .Todo-item-label {
   padding: 10px;
+  margin-bottom: 0px;
+}
+.Todo-item-label-checkall{
+  margin-bottom: 0px;
 }
 
+
 .Todo-item-edit {
-  font-size: 24px;
+  font-size: 16px;
   color: #2c3e50;
   margin-left: 12px;
   width: 100%;
@@ -66,44 +78,10 @@
   align-items: center;
   justify-content: space-between;
   font-size: 16px;
-  border-top: 1px solid lightgrey;
-  padding-top: 14px;
-  margin-bottom: 14px;
-}
-
-button {
-  font-size: 14px;
-  background-color: white;
-  appearance: none;
-  margin: 2px;
-}
-
-button:hover {
-  background: lightgreen;
-}
-
-button:focus {
-  outline: none;
+  border-top: 1px groove rgba(12, 1, 49, 0.548);
+  padding: 8px 5px;
 }
 
 .Active {
   background: lightgreen;
-}
-
-.fade-enter {
-  opacity: 0.01;
-}
-
-.fade-enter.fade-enter-active {
-  opacity: 1;
-  transition: opacity 500ms ease-in;
-}
-
-.fade-leave {
-  opacity: 1;
-}
-
-.fade-leave.fade-leave-active {
-  opacity: 0.01;
-  transition: opacity 300ms ease-in;
 }

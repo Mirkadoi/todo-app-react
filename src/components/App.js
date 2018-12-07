@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
-import './App.css';
+import '../App.css';
 import { Container, Row, Col } from 'reactstrap';
-import * as classnames from 'classnames';
-
+import TodoAllCheckAndLeft from './TodoAllCheckAndLeft.js'
+import TodoItem from './TodoItem'
+import TodoFilterAndAllClear from './TodoFilterAndAllClear'
 
 class App extends Component {
   render() {
@@ -12,60 +13,33 @@ class App extends Component {
         
         <Container>
         <Row>
-          <Col xs="10"><input type="text" className="Todo-input" placeholder="Введите задачу" ref={this.todoInput} /></Col>
-          <Col xs="2"><button onClick={this.addTodo} >Добавить</button></Col>
+          <Col xs="10" style={{padding: '0px 0px'}}><input type="text" className="Todo-input d-flex align-items-center justify-content-center" placeholder="Введите задачу" ref={this.todoInput} maxLength="70"/></Col>
+          <Col xs="2" className="d-flex align-items-center justify-content-center"><button onClick={this.addTodo} >Добавить</button></Col>
         </Row>
         </Container>
 
-          {this.todoFilters().map((todo, index)=>           
-        <div key={todo.id} className="Todo-item">
-          <div className="Todo-item-left">
-            <input type="checkbox" onChange={ (event)=> this.checkTodo(todo, index, event)} checked={todo.completed} />
-            {!todo.editing &&
-            <div className={classnames({'Todo-item-label': true, 'Completed': todo.completed})}
-              onDoubleClick={(event)=> this.editTodo(todo, index, event)}>
-              {todo.title}</div>
-            }
-            {todo.editing &&
-            <input className="Todo-item-edit" type="text" autoFocus defaultValue={todo.title}
-            onBlur={(event)=> this.doneEdit(todo, index, event)}
-            onKeyUp={(event)=>{
-              if(event.key === 'Enter'){
-                this.doneEdit(todo, index, event)
-              }
-              else if(event.key === 'Escape'){
-                this.cancelEdit(todo, index, event)
-              }
-            }}
-            />
-            }
-          </div>
-          <div className="Remove-item" onClick={(event) => this.deleteTodo(index)}>
-            &times;
-          </div>
-        </div>
+          <TodoFilterAndAllClear 
+        updateFilter={this.updateFilter}
+        filter={this.state.filter}
+        todoComplited={this.todoComplited()}
+        clearCompleted={this.clearCompleted}
+        />
+
+          {this.todoFilters().map((todo, index)=>    
+          <TodoItem 
+            key={todo.id}
+            todo={todo}
+            index={index}
+            checkTodo={this.checkTodo}
+            editTodo={this.editTodo}
+            doneEdit={this.doneEdit}
+            cancelEdit={this.cancelEdit}
+            deleteTodo={this.deleteTodo}
+          />       
         )}
 
+        <TodoAllCheckAndLeft tasksLeft={this.tasksLeft()} allCheckTodo={this.allCheckTodo} anyRemaining={!this.anyRemaining()}/>
         
-        <div className="Extra-container">
-          <div><input type="checkbox" onChange={this.allCheckTodo} checked={!this.anyRemaining()}/><label className="Todo-item-label">Check All</label></div>
-          <div>{this.tasksLeft()} items left</div>
-        </div>
-
-        <div className="Extra-container">
-          <div>
-            <button onClick={()=> this.updateFilter('all')} className={classnames({'Active': this.state.filter === 'all'})}>All</button>
-            <button onClick={()=> this.updateFilter('active')} className={classnames({'Active': this.state.filter === 'active'})}>Active</button>
-            <button onClick={()=> this.updateFilter('completed')} className={classnames({'Active': this.state.filter === 'completed'})}>Completed</button>
-          </div>
-
-           {this.todoComplited() > 0 &&
-          <div>
-            <button onClick={this.clearCompleted}>Clear Completed</button>
-          </div>
-          }
-
-        </div>
       </div>
     </div>
   );
@@ -128,16 +102,12 @@ class App extends Component {
     this.setState ((prevState, props) =>{
       let todos = prevState.todos;
       todo.completed = !todo.completed
-      if (todo.completed){
-        
-      }
 
       todos.splice(index, 1, todo)
 
       return {todos}
     })
   };
-
   editTodo =(todo, index, event) =>{
     this.setState ((prevState, props) =>{
       let todos = prevState.todos;
@@ -148,7 +118,6 @@ class App extends Component {
       return {todos, beforeEditTitle: todo.title}
     })
   };
-
   doneEdit =(todo, index, event) =>{
     event.persist();
     if ( event.target.value.trim().length !== 0) {
@@ -162,7 +131,6 @@ class App extends Component {
         return {todos}
       })
     }
-
   }
   cancelEdit =(todo, index, event) =>{
     this.setState ((prevState, props) =>{
@@ -181,7 +149,6 @@ class App extends Component {
   anyRemaining = ()=>{
     return this.tasksLeft() !== 0;
   }
-
   todoComplited = () =>{
     return this.state.todos.filter(todo =>todo.completed).length;
   }
@@ -207,7 +174,6 @@ class App extends Component {
     } else if (this.state.filter === 'completed') {
       return this.state.todos.filter(todo => todo.completed);
     }
-
     return this.state.todos;
   }
 
@@ -220,7 +186,6 @@ class App extends Component {
       return {todos}
     })
   }
-
 }
 
 export default App;
