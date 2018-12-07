@@ -49,21 +49,15 @@ class App extends Component {
 
   state = {
     filter:'all',
-    idForTodo: 3,
+    idForTodo: 2,
     beforeEditTitle: '',
     todos: [
       {
         'id':1,
-        'title': 'Finish React Screencast',
+        'title': 'Hello world',
         'completed': false,
         'editing': false,
       },
-      {
-        'id':2,
-        'title': 'Take over world',
-        'completed': false,
-        'editing': false,
-      }
     ]  
   }
   addTodo = (event) => {
