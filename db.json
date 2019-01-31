@@ -7,9 +7,9 @@
     {
         id: 1, 
         todoDescription: 'How do u do?'
-    }
+    },
         {
         id: 2, 
         todoDescription: 'Im well to cry'
-    }
+        }
 ]
